@@ -1,0 +1,97 @@
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+import joblib
+
+##separador##
+
+dados_iniciais = {
+    'frase': [
+        "quero cadastrar cliente", "adicionar cliente", 
+        "gerar nota", "fazer nf-e",
+        "me mostre as vendas", "ver relatório de faturamento",
+        "ajustar configurações", "ir para opções"
+    ],
+    'menu': [
+        "cadastro_cliente", "cadastro_cliente", 
+         "nota_fiscal", "nota_fiscal", 
+         "relatorio_vendas", "relatorio_vendas", 
+         "configuracoes", "configuracoes"
+    ]
+}
+
+df_inicial = pd.DataFrame(dados_iniciais)
+
+##separador##
+
+vectorizer = CountVectorizer()
+frase_vec = vectorizer.fit_transform(df_inicial['frase'])
+
+modelo_dragao = MultinomialNB()
+
+modelo_dragao.fit(frase_vec, df_inicial['menu'])
+
+print("Dragão treinado pela primeira vez com MultinomialNB !!")
+
+##separador##
+
+novos_comandos = [
+    "cliente novo",
+    "emitir a nota",
+    "o que vendeu"    
+]
+
+comando_vec = vectorizer.transform(novos_comandos)
+predicoes = modelo_dragao.predict(comando_vec)
+
+for comando, predicao in zip(novos_comandos, predicoes):
+    print(f"Comando: '{comando}' -> Decisão: Abrir tela de '{predicao}'")
+
+probabilidades = modelo_dragao.predict_proba(comando_vec)
+
+print(modelo_dragao.classes_)
+print(probabilidades)
+
+##separador##
+
+reforco_frase = ["o que vendeu"]
+reforco_menu = ["relatorio_vendas"]
+
+licao_vec = vectorizer.transform(reforco_frase)
+
+modelo_dragao.partial_fit(licao_vec, reforco_menu)
+
+print("Dragão atualizado com a nova lição !!")
+
+##separador##
+
+predicoes_new = modelo_dragao.predict(comando_vec)
+
+for comando, predicao in zip(novos_comandos, predicoes_new):
+    print(f"Comando: '{comando}' -> Decisão: Abrir tela de '{predicao}'")
+
+probabilidades = modelo_dragao.predict_proba(comando_vec)
+
+print(modelo_dragao.classes_)
+print(probabilidades)
+
+
+for i, menu in enumerate(modelo_dragao.classes_):
+    prob = probabilidades[2][i] * 100
+    print(f"-> {menu}: {prob:.2f}%")
+
+##separador##
+
+joblib.dump(modelo_dragao, "modelo_dragao.pkl")
+
+##separador##
+
+modelo_carregado = joblib.load("modelo_dragao.pkl")
+
+comando = ["abrir tela de cliente"]
+
+comando_vec = vectorizer.transform(comando)
+
+predicao = modelo_carregado.predict(comando_vec)
+
+print("Classe prevista:", predicao)
