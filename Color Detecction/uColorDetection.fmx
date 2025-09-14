@@ -1,0 +1,196 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 679
+  ClientWidth = 700
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object pnlInfo: TPanel
+    Align = Top
+    Size.Width = 700.000000000000000000
+    Size.Height = 65.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object ColorButton: TColorButton
+      Align = Left
+      Color = claChocolate
+      Margins.Left = 5.000000000000000000
+      Margins.Top = 5.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 375.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 201.000000000000000000
+      Size.Height = 55.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+    object lblRGB: TLabel
+      Align = Left
+      StyledSettings = [Family, Style, FontColor]
+      Margins.Left = 5.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 195.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 170.000000000000000000
+      Size.Height = 45.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      Text = 'lblRGB'
+      TabOrder = 1
+    end
+    object edtRGB: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Left
+      TabOrder = 2
+      TextSettings.Font.Size = 20.000000000000000000
+      Position.X = 5.000000000000000000
+      Position.Y = 10.000000000000000000
+      Margins.Left = 5.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Size.Width = 180.000000000000000000
+      Size.Height = 45.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family, Style, FontColor]
+    end
+    object edtColor: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Left
+      TabOrder = 3
+      Text = '0'
+      Position.X = 586.000000000000000000
+      Position.Y = 10.000000000000000000
+      Margins.Left = 5.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Size.Width = 100.000000000000000000
+      Size.Height = 45.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+  object mPythonCode: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Lines.Strings = (
+      'import cv2'
+      'import changeInfo'
+      ''
+      'cap = cv2.VideoCapture(0)'
+      'namedWindow = '#39'Color Detected'#39
+      ''
+      'while True:'
+      '    ret, frame = cap.read()'
+      ''
+      '    height, width, _ = frame.shape'
+      '    center_x, center_y = width // 2, height // 2'
+      ''
+      '    bgr_color = frame[center_y, center_x]'
+      
+        '    rgb_color = f"{bgr_color[2]}, {bgr_color[1]},  {bgr_color[0]' +
+        '}"'
+      '    #print(rgb_color)'
+      '    b, g, r = bgr_color'
+      '    valor = int(varRGB.Value) or 255'
+      '    if (r  > valor):'
+      '        varRGB.Value = str(r), str(g), str(b)'
+      '        changeInfo.ShowColor(int(r), int(g), int(b))'
+      ''
+      '    cv2.circle(frame, (center_x, center_y), 10, (0, 255, 0), 2)'
+      '    cv2.putText(frame, f"Cor: {rgb_color}", (20, 40),'
+      #9#9'   cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)'
+      ''
+      '    cv2.imshow(namedWindow, frame)'
+      ''
+      '    keyToExit = cv2.waitKey(1)'
+      
+        '    if cv2.getWindowProperty(namedWindow, cv2.WND_PROP_VISIBLE) ' +
+        '< 1:'
+      '        break'
+      ''
+      'cap.release()'
+      'cv2.destroyAllWindows()')
+    Align = Client
+    Size.Width = 700.000000000000000000
+    Size.Height = 432.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Viewport.Width = 680.000000000000000000
+    Viewport.Height = 428.000000000000000000
+  end
+  object pnlExecuta: TPanel
+    Align = Bottom
+    Position.Y = 497.000000000000000000
+    Size.Width = 700.000000000000000000
+    Size.Height = 71.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object lblResult: TLabel
+      Align = Bottom
+      Position.Y = 31.000000000000000000
+      Size.Width = 700.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Resultado:'
+      TabOrder = 0
+    end
+    object btnRequest: TButton
+      Align = Top
+      Size.Width = 700.000000000000000000
+      Size.Height = 38.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Executa'
+      TextSettings.Trimming = None
+      OnClick = btnRequestClick
+    end
+  end
+  object mResult: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Align = Bottom
+    Position.Y = 568.000000000000000000
+    Size.Width = 700.000000000000000000
+    Size.Height = 111.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Viewport.Width = 696.000000000000000000
+    Viewport.Height = 107.000000000000000000
+  end
+  object PythonDelphiRGB: TPythonDelphiVar
+    Engine = PythonEngine
+    Module = '__main__'
+    VarName = 'varRGB'
+    OnGetData = PythonDelphiRGBGetData
+    OnSetData = PythonDelphiRGBSetData
+    Left = 560
+    Top = 208
+  end
+  object PythonGUIInputOutput: TPythonGUIInputOutput
+    UnicodeIO = True
+    RawOutput = False
+    Output = mResult
+    Left = 560
+    Top = 152
+  end
+  object PythonModule: TPythonModule
+    Engine = PythonEngine
+    OnInitialization = PythonModuleInitialization
+    ModuleName = 'changeInfo'
+    Errors = <>
+    Left = 560
+    Top = 96
+  end
+  object PythonEngine: TPythonEngine
+    IO = PythonGUIInputOutput
+    Left = 560
+    Top = 40
+  end
+end
